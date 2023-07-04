@@ -19,6 +19,9 @@ const FILE: &str = "/dev/input/by-path/platform-pcspkr-event-spkr";
 /// # Errors
 /// Returns [`std::io::Error`] on I/O errors
 pub fn beep(hertz: u16) -> std::io::Result<()> {
-    let event = InputEvent::new(EventType::SOUND, SoundType::SND_TONE.0, i32::from(hertz));
-    Device::open(FILE)?.send_events(&[event])
+    Device::open(FILE)?.send_events(&[InputEvent::new(
+        EventType::SOUND,
+        SoundType::SND_TONE.0,
+        i32::from(hertz),
+    )])
 }
