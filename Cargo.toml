@@ -1,0 +1,20 @@
+[package]
+name = "beep-evdev"
+authors = ["Richard Neumann <mail@richard-neumann.de>"]
+description = "Beep the PC speaker using evdev"
+license = "MIT"
+homepage = "https://github.com/conqp/beep-evdev/"
+repository = "https://github.com/conqp/beep-evdev/"
+readme = "README.md"
+documentation = "https://docs.rs/beep-evdev"
+keywords = [ "beep", "pcspkr", "evdev"]
+version = "0.1.0"
+edition = "2021"
+exclude = [
+    ".gitignore",
+]
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+evdev = "0.12.1"
