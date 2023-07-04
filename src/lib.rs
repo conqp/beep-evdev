@@ -8,10 +8,10 @@ pub const DEFAULT_LEN: u64 = 200;
 pub const DEFAULT_REPEATS: u64 = 1;
 const FILE: &str = "/dev/input/by-path/platform-pcspkr-event-spkr";
 
+/// A sequence of notes
 #[derive(Clone, Debug, Default, Eq, PartialEq)]
 pub struct Melody(Vec<Note>);
 
-/// A sequence of notes
 impl Melody {
     #[must_use]
     pub fn new(notes: &[Note]) -> Self {
