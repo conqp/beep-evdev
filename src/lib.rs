@@ -140,6 +140,7 @@ impl Default for Note {
 }
 
 impl From<(u16, u64)> for Note {
+    /// Creates a note from a `(frequency, length)` tuple with defaults repeats and delay
     fn from((frequency, length): (u16, u64)) -> Self {
         Self::new(frequency, length, DEFAULT_REPEATS, DEFAULT_DELAY)
     }
