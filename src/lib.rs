@@ -100,7 +100,7 @@ impl From<&[Note]> for Melody {
 }
 
 /// A note of a certain frequency and duration
-/// May be repeated with a delay
+/// that may be repeated with a delay
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub struct Note {
     frequency: u16,
