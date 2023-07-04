@@ -9,7 +9,7 @@ pub const DEFAULT_REPEATS: u64 = 1;
 const FILE: &str = "/dev/input/by-path/platform-pcspkr-event-spkr";
 
 /// A sequence of notes
-#[derive(Clone, Debug, Default, Eq, PartialEq)]
+#[derive(Clone, Debug, Eq, PartialEq)]
 pub struct Melody(Vec<Note>);
 
 impl Melody {
@@ -84,6 +84,12 @@ impl Melody {
         }
 
         Ok(())
+    }
+}
+
+impl Default for Melody {
+    fn default() -> Self {
+        Self::new(vec![Note::default()])
     }
 }
 
