@@ -14,12 +14,12 @@ pub struct Melody(Vec<Note>);
 
 impl Melody {
     #[must_use]
-    pub fn new(notes: &[Note]) -> Self {
-        Self(Vec::from(notes))
+    pub fn new(notes: Vec<Note>) -> Self {
+        Self(notes)
     }
 
     /// Plays the melody
-    /// 
+    ///
     /// # Examples
     /// ```
     /// use beep_evdev::Melody;
@@ -64,7 +64,7 @@ impl Melody {
     /// .into();
     /// melody.play().expect("could not play melody :-(");
     /// ```
-    /// 
+    ///
     /// # Errors
     /// Returns an [`std::io::Error`] on I/O errors
     pub fn play(&self) -> Result<(), std::io::Error> {
@@ -89,13 +89,13 @@ impl Melody {
 
 impl From<Vec<Note>> for Melody {
     fn from(notes: Vec<Note>) -> Self {
-        Self(notes)
+        Self::new(notes)
     }
 }
 
 impl From<&[Note]> for Melody {
     fn from(notes: &[Note]) -> Self {
-        Self::new(notes)
+        Self::new(Vec::from(notes))
     }
 }
 
