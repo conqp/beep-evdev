@@ -2,6 +2,9 @@ use evdev::{Device, EventType, InputEvent, SoundType};
 use std::thread::sleep;
 use std::time::Duration;
 
+#[cfg(feature = "serde")]
+use serde::{Deserialize, Serialize};
+
 pub const DEFAULT_DELAY: u64 = 100;
 pub const DEFAULT_FREQ: u16 = 440;
 pub const DEFAULT_LEN: u64 = 200;
@@ -10,6 +13,7 @@ const FILE: &str = "/dev/input/by-path/platform-pcspkr-event-spkr";
 
 /// A sequence of notes
 #[derive(Clone, Debug, Eq, PartialEq)]
+#[cfg_attr(feature = "serde", derive(Serialize, Deserialize))]
 pub struct Melody(Vec<Note>);
 
 impl Melody {
@@ -108,6 +112,7 @@ impl From<&[Note]> for Melody {
 /// A note of a certain frequency and duration
 /// that may be repeated with a delay
 #[derive(Clone, Debug, Eq, PartialEq)]
+#[cfg_attr(feature = "serde", derive(Serialize, Deserialize))]
 pub struct Note {
     frequency: u16,
     length: u64,
