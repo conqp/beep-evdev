@@ -8,7 +8,7 @@ repository = "https://github.com/conqp/beep-evdev/"
 readme = "README.md"
 documentation = "https://docs.rs/beep-evdev"
 keywords = [ "beep", "pcspkr", "evdev"]
-version = "0.1.1"
+version = "0.1.2"
 edition = "2021"
 exclude = [
     ".gitignore",
