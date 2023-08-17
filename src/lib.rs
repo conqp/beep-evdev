@@ -5,9 +5,9 @@ use std::time::Duration;
 #[cfg(feature = "serde")]
 use serde::{Deserialize, Serialize};
 
-pub const DEFAULT_DELAY: u64 = 100;
+pub const DEFAULT_DELAY: Duration = Duration::from_millis(100);
 pub const DEFAULT_FREQ: u16 = 440;
-pub const DEFAULT_LEN: u64 = 200;
+pub const DEFAULT_LEN: Duration = Duration::from_millis(200);
 pub const DEFAULT_REPEATS: u64 = 1;
 const FILE: &str = "/dev/input/by-path/platform-pcspkr-event-spkr";
 
@@ -75,14 +75,14 @@ impl Melody {
         for note in &self.0 {
             if note.repeats > 0 {
                 beep(note.frequency)?;
-                sleep(Duration::from_millis(note.length));
+                sleep(note.length);
                 beep(0)?;
             }
 
             for _ in 1..note.repeats {
-                sleep(Duration::from_millis(note.delay));
+                sleep(note.delay);
                 beep(note.frequency)?;
-                sleep(Duration::from_millis(note.length));
+                sleep(note.length);
                 beep(0)?;
             }
         }
@@ -115,9 +115,9 @@ impl From<&[Note]> for Melody {
 #[cfg_attr(feature = "serde", derive(Serialize, Deserialize))]
 pub struct Note {
     frequency: u16,
-    length: u64,
+    length: Duration,
     repeats: u64,
-    delay: u64,
+    delay: Duration,
 }
 
 impl Note {
@@ -128,7 +128,7 @@ impl Note {
     /// * repeats - The amount of repeats
     /// * delay - The delay in seconds when repeating
     #[must_use]
-    pub const fn new(frequency: u16, length: u64, repeats: u64, delay: u64) -> Self {
+    pub const fn new(frequency: u16, length: Duration, repeats: u64, delay: Duration) -> Self {
         Self {
             frequency,
             length,
@@ -147,6 +147,13 @@ impl Default for Note {
 impl From<(u16, u64)> for Note {
     /// Creates a note from a `(frequency, length)` tuple with default repeats and delay
     fn from((frequency, length): (u16, u64)) -> Self {
+        Self::from((frequency, Duration::from_millis(length)))
+    }
+}
+
+impl From<(u16, Duration)> for Note {
+    /// Creates a note from a `(frequency, length)` tuple with default repeats and delay
+    fn from((frequency, length): (u16, Duration)) -> Self {
         Self::new(frequency, length, DEFAULT_REPEATS, DEFAULT_DELAY)
     }
 }
@@ -171,6 +178,5 @@ pub fn beep(hertz: u16) -> std::io::Result<()> {
     Device::open(FILE)?.send_events(&[InputEvent::new(
         EventType::SOUND,
         SoundType::SND_TONE.0,
-        i32::from(hertz),
-    )])
+        i32::fr
 }
