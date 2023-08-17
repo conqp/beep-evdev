@@ -178,5 +178,6 @@ pub fn beep(hertz: u16) -> std::io::Result<()> {
     Device::open(FILE)?.send_events(&[InputEvent::new(
         EventType::SOUND,
         SoundType::SND_TONE.0,
-        i32::fr
+        i32::from(hertz),
+    )])
 }
