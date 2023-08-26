@@ -73,18 +73,7 @@ impl Melody {
     /// Returns an [`std::io::Error`] on I/O errors
     pub fn play(&self) -> Result<(), std::io::Error> {
         for note in &self.0 {
-            if note.repeats > 0 {
-                beep(note.frequency)?;
-                sleep(note.length);
-                beep(0)?;
-            }
-
-            for _ in 1..note.repeats {
-                sleep(note.delay);
-                beep(note.frequency)?;
-                sleep(note.length);
-                beep(0)?;
-            }
+            note.play()?;
         }
 
         Ok(())
@@ -135,6 +124,34 @@ impl Note {
             repeats,
             delay,
         }
+    }
+
+    /// Plays the note
+    ///
+    /// # Examples
+    /// ```
+    /// use beep_evdev::Note;
+    ///
+    /// Note::default().play().expect("could not play melody :-(");
+    /// ```
+    ///
+    /// # Errors
+    /// Returns an [`std::io::Error`] on I/O errors
+    pub fn play(&self) -> Result<(), std::io::Error> {
+        if self.repeats > 0 {
+            beep(self.frequency)?;
+            sleep(self.length);
+            beep(0)?;
+        }
+
+        for _ in 1..self.repeats {
+            sleep(self.delay);
+            beep(self.frequency)?;
+            sleep(self.length);
+            beep(0)?;
+        }
+
+        Ok(())
     }
 }
 
