@@ -113,9 +113,9 @@ impl Note {
     /// Creates a new note
     /// # Attributes
     /// * frequency - The frequency in Hertz
-    /// * length -  The length in milliseconds
+    /// * length -  The length of the note
     /// * repeats - The amount of repeats
-    /// * delay - The delay in seconds when repeating
+    /// * delay - The delay before each repeat
     #[must_use]
     pub const fn new(frequency: u16, length: Duration, repeats: u16, delay: Duration) -> Self {
         Self {
