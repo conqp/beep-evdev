@@ -8,7 +8,7 @@ use serde::{Deserialize, Serialize};
 pub const DEFAULT_DELAY: Duration = Duration::from_millis(100);
 pub const DEFAULT_FREQ: u16 = 440;
 pub const DEFAULT_LEN: Duration = Duration::from_millis(200);
-pub const DEFAULT_REPEATS: u64 = 1;
+pub const DEFAULT_REPEATS: u16 = 1;
 const FILE: &str = "/dev/input/by-path/platform-pcspkr-event-spkr";
 
 /// A sequence of notes
@@ -116,7 +116,7 @@ impl From<&[Note]> for Melody {
 pub struct Note {
     frequency: u16,
     length: Duration,
-    repeats: u64,
+    repeats: u16,
     delay: Duration,
 }
 
@@ -128,7 +128,7 @@ impl Note {
     /// * repeats - The amount of repeats
     /// * delay - The delay in seconds when repeating
     #[must_use]
-    pub const fn new(frequency: u16, length: Duration, repeats: u64, delay: Duration) -> Self {
+    pub const fn new(frequency: u16, length: Duration, repeats: u16, delay: Duration) -> Self {
         Self {
             frequency,
             length,
