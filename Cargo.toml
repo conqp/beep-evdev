@@ -7,8 +7,8 @@ homepage = "https://github.com/conqp/beep-evdev/"
 repository = "https://github.com/conqp/beep-evdev/"
 readme = "README.md"
 documentation = "https://docs.rs/beep-evdev"
-keywords = [ "beep", "pcspkr", "evdev"]
-version = "0.3.2"
+keywords = ["beep", "pcspkr", "evdev"]
+version = "0.4.0"
 edition = "2021"
 exclude = [
     ".gitignore",
@@ -17,8 +17,8 @@ exclude = [
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-evdev = "0.12.1"
-serde = { version = "1.0.166", features = ["derive"], optional = true }
+evdev = "0.12"
+serde = { version = "1.0", features = ["derive"], optional = true }
 
 [features]
 serde = ["dep:serde"]
