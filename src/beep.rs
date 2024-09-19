@@ -1,25 +1,24 @@
-use crate::{Melody, Note, FILE};
+use crate::{Melody, Note};
 use evdev::{Device, EventType, InputEvent, SoundType};
+use std::io::Result;
 use std::thread::sleep;
 
-pub struct Pcspkr {
-    device: Device,
+pub trait Beep {
+    fn beep(&mut self, hertz: u16) -> Result<()>;
+    fn note(&mut self, note: &Note) -> Result<()>;
+    fn play(&mut self, melody: &Melody) -> Result<()>;
 }
 
-impl Pcspkr {
-    #[must_use]
-    pub const fn new(device: Device) -> Self {
-        Self { device }
-    }
-
+impl Beep for Device {
     /// Beeps the PC speaker at the given frequency.
     ///
     /// # Examples
     /// ```
-    /// use beep_evdev::Pcspkr;
+    /// use beep_evdev::{Beep, DEFAULT_FILE};
     /// use std::{thread, time};
+    /// use evdev::Device;
     ///
-    /// let mut pcspkr = Pcspkr::default();
+    /// let mut pcspkr = Device::open(DEFAULT_FILE).unwrap();
     /// pcspkr.beep(440).expect("could not beep");
     /// thread::sleep(time::Duration::from_millis(500));
     /// pcspkr.beep(880).expect("could not beep");
@@ -28,9 +27,9 @@ impl Pcspkr {
     /// ```
     ///
     /// # Errors
-    /// Returns [`std::io::Error`] on I/O errors
-    pub fn beep(&mut self, hertz: u16) -> std::io::Result<()> {
-        self.device.send_events(&[InputEvent::new(
+    /// Returns [`std::io::Error`] on I/O errors.
+    fn beep(&mut self, hertz: u16) -> Result<()> {
+        self.send_events(&[InputEvent::new(
             EventType::SOUND,
             SoundType::SND_TONE.0,
             i32::from(hertz),
@@ -41,14 +40,18 @@ impl Pcspkr {
     ///
     /// # Examples
     /// ```
-    /// use beep_evdev::{Note, Pcspkr};
+    /// use evdev::Device;
+    /// use beep_evdev::{Note, Beep, DEFAULT_FILE};
     ///
-    /// Pcspkr::default().note(&Note::default()).expect("could not play melody :-(");
+    /// let mut pcspkr = Device::open(DEFAULT_FILE)
+    ///     .unwrap()
+    ///     .note(&Note::default())
+    ///     .expect("could not play melody :-(");
     /// ```
     ///
     /// # Errors
-    /// Returns an [`std::io::Error`] on I/O errors
-    pub fn note(&mut self, note: &Note) -> Result<(), std::io::Error> {
+    /// Returns an [`std::io::Error`] on I/O errors.
+    fn note(&mut self, note: &Note) -> Result<()> {
         if note.repeats() > 0 {
             self.beep(note.frequency())?;
             sleep(note.length());
@@ -69,7 +72,8 @@ impl Pcspkr {
     ///
     /// # Examples
     /// ```
-    /// use beep_evdev::{Melody, Pcspkr};
+    /// use evdev::Device;
+    /// use beep_evdev::{Melody, Beep, DEFAULT_FILE};
     ///
     /// let melody: Melody = vec![
     ///     (659, 120).into(),
@@ -109,22 +113,20 @@ impl Pcspkr {
     ///     (440, 120).into(),
     /// ]
     /// .into();
-    /// Pcspkr::default().play(&melody).expect("could not play melody :-(");
+    ///
+    /// Device::open(DEFAULT_FILE)
+    ///     .unwrap()
+    ///     .play(&melody)
+    ///     .expect("could not play melody :-(");
     /// ```
     ///
     /// # Errors
     /// Returns an [`std::io::Error`] on I/O errors
-    pub fn play(&mut self, melody: &Melody) -> Result<(), std::io::Error> {
+    fn play(&mut self, melody: &Melody) -> Result<()> {
         for note in melody.as_ref() {
             self.note(note)?;
         }
 
         Ok(())
-    }
-}
-
-impl Default for Pcspkr {
-    fn default() -> Self {
-        Self::new(Device::open(FILE).expect("failed to open device"))
     }
 }

@@ -1,5 +1,9 @@
-use beep_evdev::{Melody, Pcspkr};
+use beep_evdev::{Beep, Melody, DEFAULT_FILE};
+use evdev::Device;
 
 fn main() {
-    Pcspkr::default().play(&Melody::default()).unwrap()
+    Device::open(DEFAULT_FILE)
+        .unwrap()
+        .play(&Melody::default())
+        .unwrap()
 }
