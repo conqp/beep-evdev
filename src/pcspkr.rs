@@ -12,7 +12,7 @@ impl Pcspkr {
         Self { device }
     }
 
-    /// Beeps the PC speaker at the given frequency
+    /// Beeps the PC speaker at the given frequency.
     ///
     /// # Examples
     /// ```
@@ -37,7 +37,7 @@ impl Pcspkr {
         )])
     }
 
-    /// Plays a note
+    /// Plays a note.
     ///
     /// # Examples
     /// ```
@@ -65,7 +65,7 @@ impl Pcspkr {
         Ok(())
     }
 
-    /// Plays a melody
+    /// Plays a melody.
     ///
     /// # Examples
     /// ```
