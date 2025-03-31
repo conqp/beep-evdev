@@ -1,9 +1,9 @@
-use beep_evdev::{Beep, Melody, DEFAULT_FILE};
+use beep_evdev::{Beep, Note, DEFAULT_FILE};
 use evdev::Device;
 
 fn main() {
     Device::open(DEFAULT_FILE)
         .unwrap()
-        .play(&Melody::default())
+        .play([Note::default()])
         .unwrap()
 }

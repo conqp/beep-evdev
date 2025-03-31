@@ -1,11 +1,10 @@
-mod beep;
-mod melody;
-mod note;
+use std::time::Duration;
 
 pub use beep::Beep;
-pub use melody::Melody;
 pub use note::Note;
-use std::time::Duration;
+
+mod beep;
+mod note;
 
 pub const DEFAULT_DELAY: Duration = Duration::from_millis(100);
 pub const DEFAULT_FREQ: u16 = 440;

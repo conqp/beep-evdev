@@ -1,12 +1,16 @@
-use crate::{Melody, Note};
-use evdev::{Device, EventType, InputEvent, SoundType};
 use std::io::Result;
 use std::thread::sleep;
+
+use evdev::{Device, EventType, InputEvent, SoundType};
+
+use crate::Note;
 
 pub trait Beep {
     fn beep(&mut self, hertz: u16) -> Result<()>;
     fn note(&mut self, note: &Note) -> Result<()>;
-    fn play(&mut self, melody: &Melody) -> Result<()>;
+    fn play<T>(&mut self, melody: T) -> Result<()>
+    where
+        T: AsRef<[Note]>;
 }
 
 impl Beep for Device {
@@ -73,9 +77,9 @@ impl Beep for Device {
     /// # Examples
     /// ```
     /// use evdev::Device;
-    /// use beep_evdev::{Melody, Beep, DEFAULT_FILE};
+    /// use beep_evdev::{Beep, DEFAULT_FILE};
     ///
-    /// let melody: Melody = vec![
+    /// let melody = vec![
     ///     (659, 120).into(),
     ///     (622, 120).into(),
     ///     (659, 120).into(),
@@ -122,7 +126,10 @@ impl Beep for Device {
     ///
     /// # Errors
     /// Returns an [`std::io::Error`] on I/O errors
-    fn play(&mut self, melody: &Melody) -> Result<()> {
+    fn play<T>(&mut self, melody: T) -> Result<()>
+    where
+        T: AsRef<[Note]>,
+    {
         for note in melody.as_ref() {
             self.note(note)?;
         }

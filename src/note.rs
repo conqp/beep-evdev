@@ -1,5 +1,6 @@
-use crate::{DEFAULT_DELAY, DEFAULT_FREQ, DEFAULT_LEN, DEFAULT_REPEATS};
 use std::time::Duration;
+
+use crate::{DEFAULT_DELAY, DEFAULT_FREQ, DEFAULT_LEN, DEFAULT_REPEATS};
 
 /// A note of a certain frequency and duration
 /// that may be repeated with a delay
