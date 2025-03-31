@@ -125,7 +125,7 @@ impl Beep for Device {
     /// ```
     ///
     /// # Errors
-    /// Returns an [`std::io::Error`] on I/O errors
+    /// Returns an [`std::io::Error`] on I/O errors.
     fn play<T>(&mut self, melody: T) -> Result<()>
     where
         T: AsRef<[Note]>,

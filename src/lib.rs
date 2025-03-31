@@ -1,3 +1,5 @@
+//! A library using evdev to play notes on the PC speaker.
+
 use std::time::Duration;
 
 pub use beep::Beep;

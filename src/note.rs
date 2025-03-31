@@ -3,7 +3,7 @@ use std::time::Duration;
 use crate::{DEFAULT_DELAY, DEFAULT_FREQ, DEFAULT_LEN, DEFAULT_REPEATS};
 
 /// A note of a certain frequency and duration
-/// that may be repeated with a delay
+/// that may be repeated with a delay.
 #[derive(Clone, Debug, Eq, PartialEq)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct Note {
@@ -53,14 +53,14 @@ impl Default for Note {
 }
 
 impl From<(u16, u64)> for Note {
-    /// Creates a note from a `(frequency, length)` tuple with default repeats and delay
+    /// Creates a note from a `(frequency, length)` tuple with default repeats and delay.
     fn from((frequency, length): (u16, u64)) -> Self {
         Self::from((frequency, Duration::from_millis(length)))
     }
 }
 
 impl From<(u16, Duration)> for Note {
-    /// Creates a note from a `(frequency, length)` tuple with default repeats and delay
+    /// Creates a note from a `(frequency, length)` tuple with default repeats and .
     fn from((frequency, length): (u16, Duration)) -> Self {
         Self::new(frequency, length, DEFAULT_REPEATS, DEFAULT_DELAY)
     }
