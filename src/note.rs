@@ -25,21 +25,25 @@ impl Note {
         }
     }
 
+    /// Returns the frequency in Hertz.
     #[must_use]
     pub const fn frequency(&self) -> u16 {
         self.frequency
     }
 
+    /// Returns the length.
     #[must_use]
     pub const fn length(&self) -> Duration {
         self.length
     }
 
+    /// Returns the amount of repeats.
     #[must_use]
     pub const fn repeats(&self) -> u16 {
         self.repeats
     }
 
+    /// Returns the delay.
     #[must_use]
     pub const fn delay(&self) -> Duration {
         self.delay
@@ -60,7 +64,7 @@ impl From<(u16, u64)> for Note {
 }
 
 impl From<(u16, Duration)> for Note {
-    /// Creates a note from a `(frequency, length)` tuple with default repeats and .
+    /// Creates a note from a `(frequency, length)` tuple with default repeats and delay.
     fn from((frequency, length): (u16, Duration)) -> Self {
         Self::new(frequency, length, DEFAULT_REPEATS, DEFAULT_DELAY)
     }

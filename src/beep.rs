@@ -6,8 +6,13 @@ use evdev::{Device, EventType, InputEvent, SoundCode};
 use crate::Note;
 
 pub trait Beep {
+    /// Beep the pcspkr at the given frequency.
     fn beep(&mut self, hertz: u16) -> Result<()>;
+
+    /// Play the given note on the pcspkr.
     fn note(&mut self, note: &Note) -> Result<()>;
+
+    /// Play the given melody on the pcspkr.
     fn play<T>(&mut self, melody: T) -> Result<()>
     where
         T: AsRef<[Note]>;
