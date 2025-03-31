@@ -1,7 +1,7 @@
 use std::io::Result;
 use std::thread::sleep;
 
-use evdev::{Device, EventType, InputEvent, SoundType};
+use evdev::{Device, EventType, InputEvent, SoundCode};
 
 use crate::Note;
 
@@ -34,8 +34,8 @@ impl Beep for Device {
     /// Returns [`std::io::Error`] on I/O errors.
     fn beep(&mut self, hertz: u16) -> Result<()> {
         self.send_events(&[InputEvent::new(
-            EventType::SOUND,
-            SoundType::SND_TONE.0,
+            EventType::SOUND.0,
+            SoundCode::SND_TONE.0,
             i32::from(hertz),
         )])
     }
