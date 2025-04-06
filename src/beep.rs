@@ -84,7 +84,7 @@ impl Beep for Device {
     /// use evdev::Device;
     /// use beep_evdev::{Beep, Note, DEFAULT_FILE};
     ///
-    /// let melody: Vec<Note> = vec![
+    /// let melody = vec![
     ///     (659, 120).into(),
     ///     (622, 120).into(),
     ///     (659, 120).into(),
@@ -120,8 +120,7 @@ impl Beep for Device {
     ///     (523, 120).into(),
     ///     (494, 120).into(),
     ///     (440, 120).into(),
-    /// ]
-    /// .into();
+    /// ];
     ///
     /// Device::open(DEFAULT_FILE)
     ///     .expect("could not open pcspkr device")
