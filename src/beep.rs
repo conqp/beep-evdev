@@ -5,21 +5,13 @@ use evdev::{Device, EventType, InputEvent, SoundCode};
 
 use crate::Note;
 
+/// Allows to beep the PC speaker.
 pub trait Beep {
-    /// Beep the pcspkr at the given frequency.
-    fn beep(&mut self, hertz: u16) -> Result<()>;
-
-    /// Play the given note on the pcspkr.
-    fn note(&mut self, note: &Note) -> Result<()>;
-
-    /// Play the given melody on the pcspkr.
-    fn play<T>(&mut self, melody: T) -> Result<()>
-    where
-        T: AsRef<[Note]>;
-}
-
-impl Beep for Device {
-    /// Beeps the PC speaker at the given frequency.
+    /// Beep the PC speaker at the given frequency.
+    ///
+    /// # Errors
+    ///
+    /// Returns an [`Error`] if beeping the PC speaker fails.
     ///
     /// # Examples
     /// ```
@@ -33,19 +25,13 @@ impl Beep for Device {
     /// pcspkr.beep(880).expect("could not beep");
     /// thread::sleep(time::Duration::from_millis(500));
     /// pcspkr.beep(0).expect("could not beep");
-    /// ```
+    fn beep(&mut self, hertz: u16) -> Result<()>;
+
+    /// Play the given note on the PC speaker.
     ///
     /// # Errors
-    /// Returns [`std::io::Error`] on I/O errors.
-    fn beep(&mut self, hertz: u16) -> Result<()> {
-        self.send_events(&[InputEvent::new(
-            EventType::SOUND.0,
-            SoundCode::SND_TONE.0,
-            i32::from(hertz),
-        )])
-    }
-
-    /// Plays a note.
+    ///
+    /// Returns an [`Error`] if beeping the PC speaker fails.
     ///
     /// # Examples
     /// ```
@@ -57,9 +43,6 @@ impl Beep for Device {
     ///     .note(&Note::default())
     ///     .expect("could not play melody :-(");
     /// ```
-    ///
-    /// # Errors
-    /// Returns an [`std::io::Error`] on I/O errors.
     fn note(&mut self, note: &Note) -> Result<()> {
         if note.repeats() > 0 {
             self.beep(note.frequency())?;
@@ -77,7 +60,11 @@ impl Beep for Device {
         Ok(())
     }
 
-    /// Plays a melody.
+    /// Play the given melody on the PC speaker.
+    ///
+    /// # Errors
+    ///
+    /// Returns an [`Error`] if beeping the PC speaker fails.
     ///
     /// # Examples
     /// ```
@@ -127,9 +114,6 @@ impl Beep for Device {
     ///     .play(&melody)
     ///     .expect("could not play melody :-(");
     /// ```
-    ///
-    /// # Errors
-    /// Returns an [`std::io::Error`] on I/O errors.
     fn play<T>(&mut self, melody: T) -> Result<()>
     where
         T: AsRef<[Note]>,
@@ -139,5 +123,15 @@ impl Beep for Device {
         }
 
         Ok(())
+    }
+}
+
+impl Beep for Device {
+    fn beep(&mut self, hertz: u16) -> Result<()> {
+        self.send_events(&[InputEvent::new(
+            EventType::SOUND.0,
+            SoundCode::SND_TONE.0,
+            i32::from(hertz),
+        )])
     }
 }
